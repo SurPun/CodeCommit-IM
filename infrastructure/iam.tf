@@ -47,25 +47,8 @@ resource "aws_iam_group_policy_attachment" "restrict" {
   policy_arn = aws_iam_policy.branch_policy.arn
 }
 
-// IAM Role
-resource "aws_iam_role" "codecommit_role" {
-  name = "codecommit-role"
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
-        Principal = {
-          Service = "codecommit.amazonaws.com"
-        }
-      }
-    ]
-  })
-}
+// IAM User
 
-// Attach to IAM Role
-resource "aws_iam_role_policy_attachment" "codecommit_branch_policy_attachment" {
-  role       = aws_iam_role.codecommit_role.name
-  policy_arn = aws_iam_policy.branch_policy.arn
-}
+
+// Attach to IAM User
+
