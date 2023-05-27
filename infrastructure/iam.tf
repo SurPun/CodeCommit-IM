@@ -1,4 +1,4 @@
-// IAM Policy For Branch Protection
+// IAM Deny Policy For Branch Protection
 resource "aws_iam_policy" "branch_policy" {
   name        = "DenyChangesToMain"
   path        = "/"
@@ -37,18 +37,12 @@ resource "aws_iam_policy" "branch_policy" {
 }
 
 // IAM Group
-resource "aws_iam_group" "restricted_devs" {
-  name = "Restricted-Devs"
+resource "aws_iam_group" "developers" {
+  name = "Developers"
 }
 
-// Attach to IAM Group
+// Attach Deny Policy to IAM Group
 resource "aws_iam_group_policy_attachment" "restrict" {
-  group      = aws_iam_group.restricted_devs.name
+  group      = aws_iam_group.developers.name
   policy_arn = aws_iam_policy.branch_policy.arn
 }
-
-// IAM User
-
-
-// Attach to IAM User
-

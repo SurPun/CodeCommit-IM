@@ -13,7 +13,7 @@ provider "aws" {
   region = "eu-west-2"
 }
 
-// CODECOMMIT
+// CODECOMMIT MODULE
 module "codecommit_repo" {
   source          = "./modules/code_commit"
   repository_name = var.repo_name
