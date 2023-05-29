@@ -28,28 +28,10 @@ resource "null_resource" "codecommit_interaction" {
     run_on_creation = timestamp()
   }
 
+  // Base64 encoded value...
   provisioner "local-exec" {
     command = <<EOT
-    aws codecommit create-commit --repository-name ${module.codecommit_repo.repository_name} --branch-name ${module.codecommit_repo.default_branch} --put-files "filePath=Readme.md,fileContent=V2VsY29tZSB0byBvdXIgdGVhbSByZXBvc2l0b3J5IQo="
+    aws codecommit create-commit --repository-name ${module.codecommit_repo.repository_name} --branch-name ${module.codecommit_repo.default_branch} --put-files "filePath=README.md,fileContent=QnJhbmNoIFByb3RlY3RlZCBSZXBvc2l0b3J5"
     EOT
   }
-}
-
-// IAM USERS
-module "dev-1" {
-  source = "./modules/iam_user"
-
-  name          = var.dev-1
-  path          = "/"
-  force_destroy = true
-}
-
-resource "aws_iam_user_policy_attachment" "attachment-1" {
-  user       = module.dev-1.name
-  policy_arn = "arn:aws:iam::aws:policy/AWSCodeCommitPowerUser"
-}
-
-resource "aws_iam_user_group_membership" "membership-1" {
-  user   = module.dev-1.name
-  groups = [aws_iam_group.developers.name]
 }
