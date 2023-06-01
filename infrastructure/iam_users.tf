@@ -1,33 +1,77 @@
-// IAM USERS
-module "dev-1" {
+// --------------------- IAM User 1 --------------------- //
+
+module "dev_1" {
   source = "./modules/iam_user"
 
-  name          = var.dev-1
+  name          = var.dev_1
   path          = "/"
   force_destroy = true
 }
 
-resource "aws_iam_user_policy_attachment" "attachment-1" {
-  user       = module.dev-1.name
-  policy_arn = "arn:aws:iam::aws:policy/AWSCodeCommitPowerUser"
-}
-
-resource "aws_iam_user_group_membership" "membership-1" {
-  user   = module.dev-1.name
+// Add User to Group
+resource "aws_iam_user_group_membership" "member_1" {
+  user   = module.dev_1.name
   groups = [aws_iam_group.developers.name]
 }
 
 // User Access Key
-resource "aws_iam_access_key" "dev-1-key" {
-  user = module.dev-1.name
+resource "aws_iam_access_key" "dev_1_cred" {
+  user = module.dev_1.name
 }
 
 output "dev_1_id" {
-  value     = aws_iam_access_key.dev-1-key.id
+  value     = aws_iam_access_key.dev_1_cred.id
   sensitive = true
 }
 
 output "dev_1_key" {
-  value     = aws_iam_access_key.dev-1-key.secret
+  value     = aws_iam_access_key.dev_1_cred.secret
   sensitive = true
 }
+
+// --------------------- IAM User 2 --------------------- //
+
+module "dev_2" {
+  source = "./modules/iam_user"
+
+  name          = var.dev_2
+  path          = "/"
+  force_destroy = true
+}
+
+// Add User to Group
+resource "aws_iam_user_group_membership" "member_2" {
+  user   = module.dev_2.name
+  groups = [aws_iam_group.developers.name]
+}
+
+// User Access Key
+resource "aws_iam_access_key" "dev_2_cred" {
+  user = module.dev_2.name
+}
+
+output "dev_2_id" {
+  value     = aws_iam_access_key.dev_2_cred.id
+  sensitive = true
+}
+
+output "dev_2_key" {
+  value     = aws_iam_access_key.dev_2_cred.secret
+  sensitive = true
+}
+
+/* TIPS
+
+----------------------------- Terraform Output
+terraform output dev_1_id
+terraform output dev_1_key
+
+
+----------------------------- Git Config Helper
+git config --global credential.helper '!aws codecommit credential-helper $@'
+git config --global credential.UseHttpPath true
+
+----------------------------- Git Clone
+git clone https://git-codecommit.eu-west-2.amazonaws.com/v1/repos/YOUR_VALUES
+
+*/

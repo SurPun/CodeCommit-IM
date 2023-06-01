@@ -1,4 +1,4 @@
-// IAM Deny Policy For Branch Protection
+// Deny Policy For Branch Protection
 resource "aws_iam_policy" "branch_policy" {
   name        = "DenyChangesToMain"
   path        = "/"

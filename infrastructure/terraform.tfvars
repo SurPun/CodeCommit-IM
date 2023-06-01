@@ -4,4 +4,5 @@ repo_description = "A Codecommit Repository with Branch Protection"
 branch_name      = "main"
 
 // Developers
-dev-1 = "Suraj"
+dev_1 = "Suraj"
+dev_2 = "Test"

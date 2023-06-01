@@ -10,7 +10,12 @@ variable "branch_name" {
   type = string
 }
 
-// IAM USERS
-variable "dev-1" {
+// IAM USER - 1
+variable "dev_1" {
+  type = string
+}
+
+// IAM USER - 2
+variable "dev_2" {
   type = string
 }
